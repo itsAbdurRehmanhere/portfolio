@@ -34,9 +34,11 @@ const Skills = () => {
 
   const displaySkills = skills.length > 0 ? skills : defaultSkills;
   
-  // Group skills by category if desired, or just show list
-  const backendSkills = displaySkills.filter(s => s.category === 'Backend' || s.category === 'Database' || s.category === 'DevOps');
-  const frontendSkills = displaySkills.filter(s => s.category === 'Frontend');
+  // Sort skills by id
+  const sortedSkills = [...displaySkills].sort((a, b) => a.id - b.id);
+  
+  // Group skills dynamically by category
+  const categories = [...new Set(sortedSkills.map(s => s.category))];
 
   return (
     <motion.div 
@@ -57,33 +59,24 @@ const Skills = () => {
         </motion.h2>
 
         <div className="skills-container">
-          <motion.div 
-            className="skills-category glass-panel"
-            initial={{ x: -50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <h3 className="category-title">Backend & Infrastructure</h3>
-            {backendSkills.length > 0 ? backendSkills.map((skill, index) => (
-              <SkillBar key={skill.id} skill={skill} index={index} />
-            )) : displaySkills.slice(0,3).map((skill, index) => (
-              <SkillBar key={skill.id} skill={skill} index={index} />
-            ))}
-          </motion.div>
-
-          <motion.div 
-            className="skills-category glass-panel"
-            initial={{ x: 50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            <h3 className="category-title">Frontend & Others</h3>
-            {frontendSkills.length > 0 ? frontendSkills.map((skill, index) => (
-              <SkillBar key={skill.id} skill={skill} index={index} />
-            )) : displaySkills.slice(3).map((skill, index) => (
-              <SkillBar key={skill.id} skill={skill} index={index} />
-            ))}
-          </motion.div>
+          {categories.map((category, catIndex) => {
+            const categorySkills = sortedSkills.filter(s => s.category === category);
+            
+            return (
+              <motion.div 
+                key={category}
+                className="skills-category glass-panel"
+                initial={{ x: catIndex % 2 === 0 ? -50 : 50, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 + (catIndex * 0.1) }}
+              >
+                <h3 className="category-title">{category}</h3>
+                {categorySkills.map((skill, index) => (
+                  <SkillBar key={skill.id} skill={skill} index={index} />
+                ))}
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </motion.div>
