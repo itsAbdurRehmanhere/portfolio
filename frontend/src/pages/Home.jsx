@@ -22,7 +22,7 @@ const Home = () => {
           >
             <h2 className="greeting">Hello, I'm</h2>
             <h1 className="hero-title">
-              Hassan <span className="text-gradient">Ali</span>
+              Abdur Rehman <span className="text-gradient"></span>
             </h1>
             <h3 className="hero-subtitle">
               <Terminal size={24} className="terminal-icon" />
@@ -53,7 +53,7 @@ const Home = () => {
             <div className="glass-panel profile-card">
               <div className="code-snippet">
                 <p><span className="keyword">const</span> <span className="variable">developer</span> = {'{'}</p>
-                <p>&nbsp;&nbsp;name: <span className="string">"Hassan Ali"</span>,</p>
+                <p>&nbsp;&nbsp;name: <span className="string">"Abdur Rehman"</span>,</p>
                 <p>&nbsp;&nbsp;skills: [<span className="string">"Python"</span>, <span className="string">"FastAPI"</span>, <span className="string">"React"</span>],</p>
                 <p>&nbsp;&nbsp;passion: <span className="string">"Clean Code"</span></p>
                 <p>{'};'}</p>

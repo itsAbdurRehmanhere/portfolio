@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="container footer-container">
         <div className="footer-content">
           <div className="footer-brand">
-            <h3>Hassan<span className="text-gradient">.Dev</span></h3>
+            <h3>AbdurRehman<span className="text-gradient">.Dev</span></h3>
             <p>Building robust backends and beautiful frontends.</p>
           </div>
           
@@ -18,17 +18,22 @@ const Footer = () => {
             <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="social-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noreferrer" className="social-icon">
+            {/* <a href="https://twitter.com" target="_blank" rel="noreferrer" className="social-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
-            </a>
-            <a href="mailto:contact@example.com" className="social-icon">
-              <Mail size={20} />
-            </a>
+            </a> */}
+            <a
+  href="https://mail.google.com/mail/?view=cm&fs=1&to=abdurrehmanmani049@gmail.com"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="social-icon"
+>
+  <Mail size={20} />
+</a>
           </div>
         </div>
         
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} Hassan Ali. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Abdur Rehman. All rights reserved.</p>
         </div>
       </div>
     </footer>

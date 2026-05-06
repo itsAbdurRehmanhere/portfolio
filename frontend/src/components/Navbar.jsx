@@ -30,7 +30,7 @@ const Navbar = () => {
       <div className="container nav-container">
         <NavLink to="/" className="nav-logo" onClick={closeMenu}>
           <Code2 className="logo-icon" />
-          <span className="logo-text">Hassan<span className="text-gradient">.Dev</span></span>
+          <span className="logo-text">Abdur Rehman<span className="text-gradient">.Dev</span></span>
         </NavLink>
 
         {/* Desktop Menu */}
