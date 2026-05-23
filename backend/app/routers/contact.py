@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Request
+from fastapi import APIRouter, Depends, HTTPException, status, Request, BackgroundTasks
 from sqlalchemy.orm import Session
 from app import models, schemas
 from app.database import get_db
@@ -16,71 +16,42 @@ limiter = Limiter(key_func=get_remote_address)
 @router.post("/", status_code=status.HTTP_201_CREATED)
 @limiter.limit("5/minute")
 async def create_contact(
+    contact: schemas.ContactCreate,
     request: Request,
-    db:Session = Depends(get_db)
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db)
 ):
     try:
-        contact = await request.json()
-        print("Contact:", contact)
-        db_contact = models.ContactMessage(**(contact))
+        if not validate_email(contact.email):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid Email Address"
+            )
+
+        db_contact = models.ContactMessage(**contact.model_dump())
         db.add(db_contact)
         db.commit()
         db.refresh(db_contact)
         
-        send_contact_email(
-            name=contact['name'],
-            email=contact['email'],
-            message=contact['message']
+        # Send email notification to admin in the background
+        background_tasks.add_task(
+            send_contact_email,
+            name=contact.name,
+            email=contact.email,
+            message=contact.message
         )
         
         print(f"Contact message created: {db_contact.id}")
-        return db_contact   
-    
+        return db_contact
+        
+    except HTTPException:
+        raise
     except Exception as e:
         print(f"Error: {traceback.format_exc()}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=str(e)
-        )    
-
-
-# @router.post("/", status_code=status.HTTP_201_CREATED)
-# @limiter.limit("5/minute")
-# async def create_contact(
-#     contact: schemas.ContactCreate,
-#     request: Request,
-#     db: Session = Depends(get_db)
-# ):
-#     try:
-#         if not validate_email(contact.email):
-#             raise HTTPException(
-#                 status_code=status.HTTP_400_BAD_REQUEST,
-#                 detail="Invalid Email Address"
-#             )
-
-#         db_contact = models.ContactMessage(**contact.dict())
-#         db.add(db_contact)
-#         db.commit()
-#         db.refresh(db_contact)
-        
-        # Send email notification to admin
-    #     send_contact_email(
-    #         name=contact.name,
-    #         email=contact.email,
-    #         message=contact.message
-    #     )
-        
-    #     print(f"Contact message created: {db_contact.id}")
-    #     return db_contact
-        
-    # except HTTPException:
-    #     raise
-    # except Exception as e:
-    #     print(f"Error: {traceback.format_exc()}")
-    #     raise HTTPException(
-    #         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-    #         detail=str(e)
-    #     )
+        )
 
 
 @router.get("/")
