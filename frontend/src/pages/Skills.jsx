@@ -129,18 +129,9 @@ const Skills = () => {
   ];
 
   const displaySkills = skills.length > 0 ? skills : defaultSkills;
-<<<<<<< HEAD
 
   // Sort skills by id
   const sortedSkills = [...displaySkills].sort((a, b) => a.id - b.id);
-
-=======
-  
-  // Sort skills by id
-  const sortedSkills = [...displaySkills].sort((a, b) => a.id - b.id);
-  
->>>>>>> dfed051da1d05b44631fb1d44fa1da9147fd9788
-  // Group skills dynamically by category
   const categories = [...new Set(sortedSkills.map(s => s.category))];
 
   return (
@@ -164,15 +155,14 @@ const Skills = () => {
         <div className="skills-container">
           {categories.map((category, catIndex) => {
             const categorySkills = sortedSkills.filter(s => s.category === category);
-<<<<<<< HEAD
+// <<<<<<< HEAD
 
-            return (
-              <motion.div
-=======
+//             return (
+//               <motion.div
+// =======
             
             return (
               <motion.div 
->>>>>>> dfed051da1d05b44631fb1d44fa1da9147fd9788
                 key={category}
                 className="skills-category glass-panel"
                 initial={{ x: catIndex % 2 === 0 ? -50 : 50, opacity: 0 }}
