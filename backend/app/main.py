@@ -7,7 +7,7 @@ from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from app import models
 from app.database import engine
-from app.routers import contact, projects, skills
+from app.routers import contact, projects, skills, experience
 from app.config import config
 
 models.Base.metadata.create_all(bind=engine)
@@ -41,6 +41,7 @@ async def validation_exception_handler(request: Request, exc = RequestValidation
 app.include_router(contact.router)
 app.include_router(projects.router)
 app.include_router(skills.router)
+app.include_router(experience.router)
 
 @app.get("/")
 async def root():

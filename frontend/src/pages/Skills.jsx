@@ -33,7 +33,7 @@
 //   ];
 
 //   const displaySkills = skills.length > 0 ? skills : defaultSkills;
-  
+
 //   // Group skills by category if desired, or just show list
 //   const backendSkills = displaySkills.filter(s => s.category === 'Backend' || s.category === 'Database' || s.category === 'DevOps');
 //   const frontendSkills = displaySkills.filter(s => s.category === 'Frontend');
@@ -121,23 +121,23 @@ const Skills = () => {
 
   // Mock skills if API is empty
   const defaultSkills = [
-    { id: 1, name: "Python / FastAPI", proficiency: 90, category: "Backend" },
-    { id: 2, name: "PostgreSQL", proficiency: 85, category: "Database" },
-    { id: 3, name: "Docker", proficiency: 75, category: "DevOps" },
-    { id: 4, name: "React", proficiency: 80, category: "Frontend" },
-    { id: 5, name: "JavaScript", proficiency: 85, category: "Frontend" }
+    // { id: 1, name: "Python / FastAPI", proficiency: 90, category: "Backend" },
+    // { id: 2, name: "PostgreSQL", proficiency: 85, category: "Database" },
+    // { id: 3, name: "Docker", proficiency: 75, category: "DevOps" },
+    // { id: 4, name: "React", proficiency: 80, category: "Frontend" },
+    // { id: 5, name: "JavaScript", proficiency: 85, category: "Frontend" }
   ];
 
   const displaySkills = skills.length > 0 ? skills : defaultSkills;
-  
+
   // Sort skills by id
   const sortedSkills = [...displaySkills].sort((a, b) => a.id - b.id);
-  
+
   // Group skills dynamically by category
   const categories = [...new Set(sortedSkills.map(s => s.category))];
 
   return (
-    <motion.div 
+    <motion.div
       className="skills-page section"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -145,7 +145,7 @@ const Skills = () => {
       transition={{ duration: 0.5 }}
     >
       <div className="container">
-        <motion.h2 
+        <motion.h2
           className="section-title"
           initial={{ y: -30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -157,9 +157,9 @@ const Skills = () => {
         <div className="skills-container">
           {categories.map((category, catIndex) => {
             const categorySkills = sortedSkills.filter(s => s.category === category);
-            
+
             return (
-              <motion.div 
+              <motion.div
                 key={category}
                 className="skills-category glass-panel"
                 initial={{ x: catIndex % 2 === 0 ? -50 : 50, opacity: 0 }}

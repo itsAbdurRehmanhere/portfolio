@@ -10,6 +10,12 @@ engine = create_engine(
     max_overflow=20
 )
 
+try:
+    with engine.connect() as connection:
+        print("Database connected successfully!")
+except Exception as e:
+    print(f"Error connecting to the database: {e}")
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()

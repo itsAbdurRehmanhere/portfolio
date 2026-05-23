@@ -52,8 +52,31 @@ class SkillBase(BaseModel):
 
 class SkillCreate(SkillBase):
     pass
+class SkillUpdate(SkillBase):
+    pass
 
 class SkillResponse(SkillBase):
+    id: int
+    
+    class Config:
+        from_attributes = True
+
+class ExperienceBase(BaseModel):
+    title: str = Field(..., min_length=3, max_length=200)
+    company: str = Field(..., min_length=3, max_length=200)
+    location: str = Field(..., min_length=3, max_length=200)
+    start_date: str = Field(..., min_length=3, max_length=200)
+    end_date: Optional[str] = Field(..., min_length=3, max_length=200)
+    description: str = Field(..., min_length=10, max_length=5000)
+    technologies: List[str] = []
+    current: bool = False
+    order: int = 0
+
+class ExperienceCreate(ExperienceBase):
+    pass
+class ExperienceUpdate(ExperienceBase):
+    pass
+class ExperienceResponse(ExperienceBase):
     id: int
     
     class Config:
@@ -65,3 +88,4 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: Optional[str] = None
+

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = 'http://localhost:8001/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -30,6 +30,13 @@ export const skillService = {
 export const contactService = {
   sendMessage: async (data) => {
     const response = await api.post('/contact', data);
+    return response.data;
+  }
+};
+
+export const experienceService = {
+  getExperiences: async () => {
+    const response = await api.get('/experience');
     return response.data;
   }
 };

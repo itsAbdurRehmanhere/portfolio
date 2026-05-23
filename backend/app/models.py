@@ -47,3 +47,16 @@ class User(Base):
     hashed_password = Column(String(255), nullable=False)
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+class experience(Base):
+    __tablename__ = "experience"
+    id = Column(Integer, primary_key=True, index = True)
+    title = Column(String(200), nullable=False)
+    company = Column(String(200), nullable=False)
+    location = Column(String(200), nullable=False)
+    start_date = Column(String(200), nullable=False)
+    end_date = Column(String(200), nullable=True)
+    description = Column(Text, nullable=False)
+    technologies = Column(JSON, nullable=False)
+    current = Column(Boolean, default=False)
+    order = Column(Integer, default=0)
