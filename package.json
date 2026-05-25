@@ -2,6 +2,6 @@
     "name": "portfolio-monorepo",
     "version": "1.0.0",
     "scripts": {
-        "vercel-build": "cd frontend && npm install && npm run build && cd ../backend && pip install -r requirements.txt"
+        "vercel-build": "cd frontend && npm install && npm run build && cd ../backend && python -m venv venv && source venv/bin/activate && pip install -r requirements.txt"
     }
 }
