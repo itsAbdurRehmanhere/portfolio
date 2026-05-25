@@ -38,10 +38,10 @@ async def validation_exception_handler(request: Request, exc = RequestValidation
         content={"details":"Validation error", "errors":exc.errors()}
     )
 
-app.include_router(contact.router)
-app.include_router(projects.router)
-app.include_router(skills.router)
-app.include_router(experience.router)
+app.include_router(contact.router, prefix="/api")
+app.include_router(projects.router, prefix="/api")
+app.include_router(skills.router, prefix="/api")
+app.include_router(experience.router, prefix="/api")
 
 @app.get("/")
 async def root():
