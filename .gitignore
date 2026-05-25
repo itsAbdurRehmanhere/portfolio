@@ -67,3 +67,5 @@ postgres_data/
 # Production
 /build
 /dist
+.vercel
+.env*
