@@ -166,9 +166,11 @@ const Experience = () => {
     return `${start} - ${current ? 'Present' : end}`;
   };
 
-  // Sort by order only
+  // Sort by start_date descending (latest to oldest)
   const sortedExperiences = [...experiences].sort((a, b) => {
-    return (a.order || 0) - (b.order || 0);
+    const dateA = new Date(a.start_date).getTime();
+    const dateB = new Date(b.start_date).getTime();
+    return dateB - dateA;
   });
 
   return (

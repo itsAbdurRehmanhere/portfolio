@@ -9,6 +9,8 @@ from app import models
 from app.database import engine
 from app.routers import contact, projects, skills, experience
 from app.config import config
+from fastapi.staticfiles import StaticFiles
+import os
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -18,6 +20,13 @@ app = FastAPI(
     description="Backend API for portfolio Website",
     version="1.0.0"
 )
+
+# Ensure the uploads directory exists
+uploads_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "uploads")
+os.makedirs(uploads_dir, exist_ok=True)
+os.makedirs(os.path.join(uploads_dir, "projects"), exist_ok=True)
+
+app.mount("/static", StaticFiles(directory=uploads_dir), name="static")
 
 app.state.limiter = limiter
 

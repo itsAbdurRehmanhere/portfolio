@@ -1,7 +1,9 @@
 from h11._abnf import status_code
 import traceback
 import traceback
-from fastapi import APIRouter, HTTPException, Depends, status, Request
+import os
+import uuid
+from fastapi import APIRouter, HTTPException, Depends, status, Request, UploadFile, File
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from app import models, schemas
@@ -10,6 +12,9 @@ from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 
 router = APIRouter(prefix="/api/projects", tags=["projects"])
+
+# Uploads directory — relative to the backend package root
+UPLOADS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "uploads", "projects")
 
 @router.get("/")
 async def get_project( request: Request, db: Session = Depends(get_db)):
@@ -84,3 +89,67 @@ def delete_project(project_id: int, db: Session= Depends(get_db)):
     db.delete(db_project)
     db.commit()
     return None
+
+
+ALLOWED_EXTENSIONS = {"image/jpeg", "image/png", "image/gif", "image/webp"}
+MAX_FILE_SIZE_MB = 5
+
+@router.post("/upload-image")
+async def upload_project_image(
+    project_id: int,
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db)
+):
+    """
+    Upload an image for a specific project.
+    Saves the image to disk, updates the project's image_url in the database,
+    and returns the URL path to access the uploaded image.
+    Supported formats: JPEG, PNG, GIF, WebP. Max size: 5MB.
+    """
+    # Check that the project exists
+    db_project = db.query(models.Project).filter(models.Project.id == project_id).first()
+    if not db_project:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Project not found")
+
+    # Validate content type
+    if file.content_type not in ALLOWED_EXTENSIONS:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Unsupported file type: {file.content_type}. Allowed: JPEG, PNG, GIF, WebP."
+        )
+
+    # Read file content
+    contents = await file.read()
+
+    # Validate file size
+    if len(contents) > MAX_FILE_SIZE_MB * 1024 * 1024:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"File too large. Maximum size is {MAX_FILE_SIZE_MB}MB."
+        )
+
+    # Build a unique filename using project_id prefix for easy identification
+    ext = file.filename.rsplit(".", 1)[-1] if "." in file.filename else "jpg"
+    unique_filename = f"project_{project_id}_{uuid.uuid4().hex}.{ext}"
+
+    # Ensure the uploads directory exists
+    os.makedirs(UPLOADS_DIR, exist_ok=True)
+
+    file_path = os.path.join(UPLOADS_DIR, unique_filename)
+
+    # Write to disk
+    with open(file_path, "wb") as f:
+        f.write(contents)
+
+    # Update the project's image_url in the database
+    image_url = f"/static/projects/{unique_filename}"
+    db_project.image_url = image_url
+    db.commit()
+    db.refresh(db_project)
+
+    return {
+        "image_url": image_url,
+        "filename": unique_filename,
+        "project_id": project_id,
+        "message": f"Image uploaded and linked to project #{project_id} successfully."
+    }
