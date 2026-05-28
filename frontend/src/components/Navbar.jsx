@@ -1,16 +1,33 @@
 import { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
 import { Menu, X, Code2 } from 'lucide-react';
 import './Navbar.css';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      
+      // Determine active section based on scroll position
+      const sections = ['home', 'experience', 'projects', 'skills', 'contact'];
+      let currentSection = 'home';
+      
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          // If the top of the section is somewhat near the top of the viewport
+          if (rect.top <= 200 && rect.bottom >= 200) {
+            currentSection = section;
+          }
+        }
+      }
+      setActiveSection(currentSection);
     };
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -19,31 +36,35 @@ const Navbar = () => {
   const closeMenu = () => setIsOpen(false);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Experience', path: '/experience' },
-    { name: 'Projects', path: '/projects' },
-    { name: 'Skills', path: '/skills' },
-    { name: 'Contact', path: '/contact' }
+    { name: 'Home', path: '#home', id: 'home' },
+    { name: 'Experience', path: '#experience', id: 'experience' },
+    { name: 'Projects', path: '#projects', id: 'projects' },
+    { name: 'Skills', path: '#skills', id: 'skills' },
+    { name: 'Contact', path: '#contact', id: 'contact' }
   ];
 
   return (
     <nav className={`navbar ${scrolled ? 'scrolled glass-panel' : ''}`}>
       <div className="container nav-container">
-        <NavLink to="/" className="nav-logo" onClick={closeMenu}>
+        <a href="#home" className="nav-logo" onClick={closeMenu}>
           <Code2 className="logo-icon" />
           <span className="logo-text">Abdur Rehman<span className="text-gradient">.Dev</span></span>
-        </NavLink>
+        </a>
 
         {/* Desktop Menu */}
         <ul className="nav-menu">
           {navLinks.map((link) => (
             <li key={link.name} className="nav-item">
-              <NavLink 
-                to={link.path} 
-                className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+              <a 
+                href={link.path} 
+                className={`nav-link ${activeSection === link.id ? 'active' : ''}`}
+                onClick={(e) => {
+                  closeMenu();
+                  // Optional: prevent default and use JS scroll for precise offset if needed
+                }}
               >
                 {link.name}
-              </NavLink>
+              </a>
             </li>
           ))}
         </ul>
@@ -59,13 +80,13 @@ const Navbar = () => {
         <ul className="mobile-nav-list">
           {navLinks.map((link) => (
             <li key={link.name}>
-              <NavLink 
-                to={link.path} 
-                className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
+              <a 
+                href={link.path} 
+                className={`mobile-nav-link ${activeSection === link.id ? 'active' : ''}`}
                 onClick={closeMenu}
               >
                 {link.name}
-              </NavLink>
+              </a>
             </li>
           ))}
         </ul>

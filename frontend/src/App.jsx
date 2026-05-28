@@ -1,5 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 // Components
 import Navbar from './components/Navbar';
@@ -12,30 +11,27 @@ import Projects from './pages/Projects';
 import Skills from './pages/Skills';
 import Contact from './pages/Contact';
 
-// Wrap routes to use useLocation hook for AnimatePresence
-const AnimatedRoutes = () => {
-  const location = useLocation();
-  
-  return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Home />} />
-        <Route path="/experience" element={<Experience />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/skills" element={<Skills />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
-    </AnimatePresence>
-  );
-};
-
 function App() {
   return (
     <Router>
       <div className="app-container">
         <Navbar />
         <main className="main-content">
-          <AnimatedRoutes />
+          <section id="home">
+            <Home />
+          </section>
+          <section id="experience">
+            <Experience />
+          </section>
+          <section id="projects">
+            <Projects />
+          </section>
+          <section id="skills">
+            <Skills />
+          </section>
+          <section id="contact">
+            <Contact />
+          </section>
         </main>
         <Footer />
       </div>

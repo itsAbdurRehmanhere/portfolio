@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import { ArrowRight, Terminal } from 'lucide-react';
 import './Home.css';
 
@@ -33,12 +32,12 @@ const Home = () => {
             </p>
             
             <div className="hero-actions">
-              <Link to="/projects" className="btn btn-primary">
+              <a href="#projects" className="btn btn-primary">
                 View Work <ArrowRight size={18} />
-              </Link>
-              <Link to="/contact" className="btn btn-outline">
+              </a>
+              <a href="#contact" className="btn btn-outline">
                 Contact Me
-              </Link>
+              </a>
             </div>
           </motion.div>
           
