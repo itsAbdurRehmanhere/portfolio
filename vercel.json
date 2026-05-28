@@ -19,6 +19,10 @@
             "dest": "/backend/vercel_app.py"
         },
         {
+            "src": "/static/(.*)",
+            "dest": "/backend/vercel_app.py"
+        },
+        {
             "handle": "filesystem"
         },
         {
