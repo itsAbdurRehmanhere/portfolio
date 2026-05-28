@@ -62,7 +62,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4>Email</h4>
-                  <a href="mailto:abdurrehmanmani049@gmail.com">abdurrehmanmani049@gmail.com</a>
+                  <a href="https://mail.google.com/mail/?view=cm&fs=1&to=abdurrehmanmani049@gmail.com">abdurrehmanmani049@gmail.com</a>
                 </div>
               </div>
               
@@ -98,7 +98,7 @@ const Contact = () => {
                   type="text" 
                   className={errors.name ? 'error-input' : ''}
                   {...register('name', { required: 'Name is required', minLength: { value: 2, message: 'Name must be at least 2 characters' } })}
-                  placeholder="John Doe"
+                  placeholder="Name"
                 />
                 {errors.name && <span className="error-text">{errors.name.message}</span>}
               </div>
@@ -116,7 +116,7 @@ const Contact = () => {
                       message: "Invalid email address"
                     }
                   })}
-                  placeholder="john@example.com"
+                  placeholder="Enter email"
                 />
                 {errors.email && <span className="error-text">{errors.email.message}</span>}
               </div>
