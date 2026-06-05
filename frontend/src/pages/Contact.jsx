@@ -57,20 +57,20 @@ const Contact = () => {
             
             <div className="contact-details">
               <div className="contact-item">
-                <div className="contact-icon glass-panel">
-                  <Mail size={24} />
+                <div className="contact-icon">
+                  <Mail size={20} />
                 </div>
-                <div>
+                <div className="contact-item-text">
                   <h4>Email</h4>
                   <a href="https://mail.google.com/mail/?view=cm&fs=1&to=abdurrehmanmani049@gmail.com">abdurrehmanmani049@gmail.com</a>
                 </div>
               </div>
-              
+
               <div className="contact-item">
-                <div className="contact-icon glass-panel">
-                  <MapPin size={24} />
+                <div className="contact-icon">
+                  <MapPin size={20} />
                 </div>
-                <div>
+                <div className="contact-item-text">
                   <h4>Location</h4>
                   <span>Global (Remote)</span>
                 </div>
