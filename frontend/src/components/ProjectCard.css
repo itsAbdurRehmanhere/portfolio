@@ -3,10 +3,16 @@
   flex-direction: column;
   height: 100%;
   overflow: hidden;
+  cursor: pointer;
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
               box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
               border-color 0.35s ease;
   border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.project-card:focus-visible {
+  outline: 2px solid var(--neon-accent);
+  outline-offset: 4px;
 }
 
 .project-card:hover {

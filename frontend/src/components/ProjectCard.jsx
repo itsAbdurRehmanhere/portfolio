@@ -2,10 +2,22 @@ import { motion } from 'framer-motion';
 import { ExternalLink, Code } from 'lucide-react';
 import './ProjectCard.css';
 
-const ProjectCard = ({ project, index }) => {
+const ProjectCard = ({ project, index, onClick }) => {
+  const handleKeyDown = (event) => {
+    if (event.target === event.currentTarget && (event.key === 'Enter' || event.key === ' ')) {
+      event.preventDefault();
+      onClick();
+    }
+  };
+
   return (
     <motion.div 
       className="project-card glass-panel"
+      role="group"
+      aria-label={`${project.title}, open project details`}
+      tabIndex={0}
+      onClick={onClick}
+      onKeyDown={handleKeyDown}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
@@ -27,12 +39,12 @@ const ProjectCard = ({ project, index }) => {
         <p className="project-description">{project.description}</p>
         
         <div className="project-tech">
-          {project.technologies.map((tech, i) => (
+          {(project.technologies || []).map((tech, i) => (
             <span key={i} className="tech-badge">{tech}</span>
           ))}
         </div>
         
-        <div className="project-links">
+        <div className="project-links" onClick={(event) => event.stopPropagation()}>
           {project.github_url && (
             <a href={project.github_url} target="_blank" rel="noreferrer" className="btn btn-outline btn-sm">
               <Code size={16} /> Code
